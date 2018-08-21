@@ -1,0 +1,60 @@
+package com.java.training.corejava;
+
+import java.sql.*;
+
+public class jdbc3 {
+	static final String JDBC_Driver="com.mysql.jdbc.Driver";
+	static final String DB_url= "jdbc:mysql://localhost:3306/java_db";
+	static final String USER="root";
+	static final String pass="1223";
+	public static void main(String[] args)
+	{
+		Connection conn=null;
+		Statement stmt=null;
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_url, USER, pass);
+			stmt=conn.createStatement();
+			//String sql2= "Update age=22 where id=1";
+			int result=stmt.executeUpdate("delete from employees where id=2");  
+			System.out.println(result+" records affected");
+			
+			
+			String sql=" select * from employees";
+			
+			
+			ResultSet rs=stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				int id=rs.getInt("id");
+				int age = rs.getInt("age");
+				String first = rs.getString("first");
+				String last= rs.getString("last");
+				System.out.println("ID is "+id);
+				System.out.println("AGE is "+age);
+				System.out.println("FIRST NAME IS "+first);
+				System.out.println("LAST NAME IS "+last);
+				
+			}
+			
+			rs.close();
+			
+			stmt.close();
+			conn.close();
+			
+		}
+		catch(SQLException se)
+		{
+			se.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+}
